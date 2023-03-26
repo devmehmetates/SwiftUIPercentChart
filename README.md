@@ -17,25 +17,14 @@ import SwiftUIPercentChart
 
 struct DemoView: View {
     var body: some View {
-        PercentChart(data: [20,10,40,30], 
-        percentValue: 150, 
-        colorData: [], 
-        screenRatio: 0.8, 
-        backgroundColor: .primary)
+        SwiftUIPercentChart(data: [50, 40, 30, 20, 30, 50, 30, 10, 20, 50], percentValue: 350, theme: .ocean)
+            .frame(width: screenSize.width * 0.7, height: 10)
     }
 }
 ```
-<img src="https://github.com/devmehmetates/SwiftUIPercentChart/blob/main/Sources/Resources/Ads%C4%B1z.gif" width=200 height=100>
 
-## Variables Usage
-
-| Variable | Type | Recommend Usage |
-| -------- | ---- | --------------- |
-| data | Array(Double) | - |
-| percentValue | Double | Enter the percentage rate you want to calculate (If the data exceeds this value, overflow is prevented) |
-| colorData | Array(LinearGradient) | If you send an empty array, the default colors are used. (There are no restrictions on the array size) |
-| screenRatio | Double | The value dec 0 to 1 must be entered (Proportions the bar according to the screen width of the device)|
-| backgroundColor | Color | Sets the color of the bar on the back |
-
-## Note 
-It also includes a small touch animation :)
+## Demo Images
+<div>
+<img width="270" alt="Screenshot 2023-03-26 at 6 46 47 PM" src="https://user-images.githubusercontent.com/74152011/227787917-0f400044-df9e-4797-90cd-addb27d90752.png">
+<img width="272.5" alt="Screenshot 2023-03-26 at 6 48 48 PM" src="https://user-images.githubusercontent.com/74152011/227787907-ba66250b-5a36-4f71-adc2-0b145f4902be.png">
+</div>
