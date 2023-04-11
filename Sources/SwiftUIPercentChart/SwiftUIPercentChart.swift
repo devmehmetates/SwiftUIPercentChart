@@ -7,7 +7,7 @@ public struct SwiftUIPercentChart: View {
     private var percentValue: Double
     private var theme: Themes
     
-    init(data: [Double] = [], percentValue: Double? = nil, theme: Themes = .dark) {
+    public init(data: [Double] = [], percentValue: Double? = nil, theme: Themes = .dark) {
         self.data = data
         self.percentValue = percentValue ?? 0 < Double(data.reduce(0, +)) ? Double(data.reduce(0, +)) : percentValue ?? Double(data.reduce(0, +))
         self.theme = theme
