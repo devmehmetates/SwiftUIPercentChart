@@ -52,6 +52,9 @@ public struct SwiftUIPercentChart: View {
     }
     
     private func cellWidth(by index: Int, _ width: CGFloat) -> Double {
+        if data[index] == 0 {
+            return 0
+        }
         return  (cellCapacity(by: index) * width) / 100
     }
     
@@ -67,7 +70,7 @@ struct SwiftUIPercentChart_Previews : PreviewProvider {
         let screenSize = UIScreen.main.bounds
         
         VStack {
-            SwiftUIPercentChart(data: [20, 30, 40], theme: .currency)
+            SwiftUIPercentChart(data: [1, 0, 0], theme: .currency)
                 .frame(width: screenSize.width * 0.7, height: 10)
             
             ForEach(Themes.allCases, id: \.self) { theme in
