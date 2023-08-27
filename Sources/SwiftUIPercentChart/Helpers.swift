@@ -37,7 +37,7 @@ public enum Themes: String, CaseIterable {
 
 @available(iOS 13.0, *)
 public struct ColorThemes {
-    static let light: [Color] = [
+    public static let light: [Color] = [
         .init(hex: "fec5bb"),
         .init(hex: "fcd5ce"),
         .init(hex: "fae1dd"),
@@ -49,7 +49,7 @@ public struct ColorThemes {
         .init(hex: "fec89a")
     ]
     
-    static let dark: [Color] = [
+    public static let dark: [Color] = [
         .init(hex: "181818"),
         .init(hex: "282828"),
         .init(hex: "404048"),
@@ -85,7 +85,7 @@ public struct ColorThemes {
         .init(hex: "012a4a")
     ]
     
-    static let natural: [Color] = [
+    public static let natural: [Color] = [
         .init(hex: "d8f3dc"),
         .init(hex: "b7e4c7"),
         .init(hex: "95d5b2"),
@@ -97,7 +97,7 @@ public struct ColorThemes {
         .init(hex: "081c15")
     ]
     
-    static let colorful: [Color] = [
+    public static let colorful: [Color] = [
         .init(hex: "ffadad"),
         .init(hex: "ffd6a5"),
         .init(hex: "fdffb6"),
@@ -109,7 +109,7 @@ public struct ColorThemes {
         .init(hex: "fffffc")
     ]
     
-    static let sunset: [Color] = [
+    public static let sunset: [Color] = [
         .init(hex: "ff7b00"),
         .init(hex: "ff8800"),
         .init(hex: "ff9500"),
@@ -120,7 +120,7 @@ public struct ColorThemes {
         .init(hex: "ffea00"),
     ]
     
-    static let neon: [Color] = [
+    public static let neon: [Color] = [
         .init(hex: "f72585"),
         .init(hex: "b5179e"),
         .init(hex: "7209b7"),
