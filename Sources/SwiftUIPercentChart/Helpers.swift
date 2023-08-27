@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-@available(iOS 13.0, *)
+@available(iOS 15.0, *)
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
 }
 
-@available(iOS 13.0, *)
+@available(iOS 15.0, *)
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
@@ -25,6 +25,7 @@ struct RoundedCorner: Shape {
 }
 
 public enum Themes: String, CaseIterable {
+    case currency = "Currency"
     case light = "Light"
     case dark = "Dark"
     case love = "Love"
@@ -35,8 +36,20 @@ public enum Themes: String, CaseIterable {
     case neon = "Neon"
 }
 
-@available(iOS 13.0, *)
+@available(iOS 15.0, *)
 public struct ColorThemes {
+    public static let currency: [Color] = [
+        .init(hex: "007f5f"),
+        .init(hex: "2b9348"),
+        .init(hex: "55a630"),
+        .init(hex: "80b918"),
+        .init(hex: "00a3cc"),
+        .init(hex: "0081a7"),
+        .init(hex: "005082"),
+        .init(hex: "993366"),
+        .init(hex: "cc3366")
+    ]
+    
     public static let light: [Color] = [
         .init(hex: "fec5bb"),
         .init(hex: "fcd5ce"),
@@ -133,7 +146,7 @@ public struct ColorThemes {
     ]
 }
 
-@available(iOS 13.0, *)
+@available(iOS 15.0, *)
 public extension Color {
     static func getColor(_ colorTheme: [Color], _ index: Int) -> Color {
         if colorTheme.indices.contains(index) {
@@ -161,6 +174,8 @@ public extension Color {
             return getColor(ColorThemes.sunset, index)
         case .neon:
             return getColor(ColorThemes.neon, index)
+        case .currency:
+            return getColor(ColorThemes.currency, index)
         }
     }
     

@@ -1,6 +1,6 @@
 import SwiftUI
 
-@available(iOS 13.0, *)
+@available(iOS 15.0, *)
 /// Creates a horizontal chart that calculates percentile slices
 public struct SwiftUIPercentChart: View {
     private var data: [Double]
@@ -41,6 +41,8 @@ public struct SwiftUIPercentChart: View {
                         Spacer()
                     }
                 }
+            }.mask {
+                RoundedRectangle(cornerRadius: 16)
             }
         }
     }
@@ -59,12 +61,15 @@ public struct SwiftUIPercentChart: View {
 }
 
 #if DEBUG
+@available(iOS 15.0, *)
 struct SwiftUIPercentChart_Previews : PreviewProvider {
-    @available(iOS 13.0, *)
     static var previews: some View {
         let screenSize = UIScreen.main.bounds
         
         VStack {
+            SwiftUIPercentChart(data: [20, 30, 40], theme: .currency)
+                .frame(width: screenSize.width * 0.7, height: 10)
+            
             ForEach(Themes.allCases, id: \.self) { theme in
                 if #available(iOS 15.0, *) {
                     VStack(alignment: .leading) {
