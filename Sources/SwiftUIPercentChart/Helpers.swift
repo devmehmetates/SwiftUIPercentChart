@@ -60,7 +60,7 @@ public struct ColorThemes {
         .init(hex: "502028")
     ]
     
-    static let love: [Color] = [
+    public static let love: [Color] = [
         .init(hex: "fff0f3"),
         .init(hex: "ffccd5"),
         .init(hex: "ffb3c1"),
@@ -72,7 +72,7 @@ public struct ColorThemes {
         .init(hex: "590d22")
     ]
     
-    static let ocean: [Color] = [
+    public static let ocean: [Color] = [
         .init(hex: "a9d6e5"),
         .init(hex: "89c2d9"),
         .init(hex: "61a5c2"),
