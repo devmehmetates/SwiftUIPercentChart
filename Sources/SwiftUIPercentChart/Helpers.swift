@@ -152,7 +152,7 @@ public extension Color {
         if colorTheme.indices.contains(index) {
             return colorTheme[index]
         } else {
-            return colorTheme[index % colorTheme.count]
+            return colorTheme[safe: index % colorTheme.count] ?? .primary
         }
     }
     
@@ -202,5 +202,11 @@ public extension Color {
             blue:  Double(b) / 255,
             opacity: Double(a) / 255
         )
+    }
+}
+
+extension Collection {
+    subscript(safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
     }
 }
