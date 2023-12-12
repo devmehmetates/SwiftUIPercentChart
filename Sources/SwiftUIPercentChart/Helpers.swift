@@ -7,14 +7,12 @@
 
 import SwiftUI
 
-@available(iOS 15.0, *)
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
 }
 
-@available(iOS 15.0, *)
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
@@ -36,7 +34,6 @@ public enum Themes: String, CaseIterable {
     case neon = "Neon"
 }
 
-@available(iOS 15.0, *)
 public struct ColorThemes {
     public static let currency: [Color] = [
         .init(hex: "007f5f"),
@@ -144,9 +141,31 @@ public struct ColorThemes {
         .init(hex: "4895ef"),
         .init(hex: "4cc9f0")
     ]
+    
+    public static func getColors(by theme: Themes) -> [Color] {
+        switch theme {
+        case .currency:
+            ColorThemes.currency
+        case .light:
+            ColorThemes.light
+        case .dark:
+            ColorThemes.dark
+        case .love:
+            ColorThemes.love
+        case .ocean:
+            ColorThemes.ocean
+        case .natural:
+            ColorThemes.natural
+        case .colorful:
+            ColorThemes.colorful
+        case .sunset:
+            ColorThemes.sunset
+        case .neon:
+            ColorThemes.neon
+        }
+    }
 }
 
-@available(iOS 15.0, *)
 public extension Color {
     static func getColor(_ colorTheme: [Color], _ index: Int) -> Color {
         if colorTheme.indices.contains(index) {

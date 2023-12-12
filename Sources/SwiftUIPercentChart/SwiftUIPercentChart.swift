@@ -1,78 +1,77 @@
 import SwiftUI
 
-@available(iOS 15.0, *)
 /// Creates a horizontal chart that calculates percentile slices
 public struct SwiftUIPercentChart: View {
-    private var data: [Double]
-    private var percentValue: Double
-    private var theme: Themes?
-    private var colors: [Color]?
-    
+    private var data: [Double] = []
+    private var percentValue: Double = 0
+    private var colors: [Color] = []
+
     public init(data: [Double] = [], percentValue: Double? = nil, theme: Themes = .dark) {
-        self.data = data
-        self.percentValue = percentValue ?? 0 < Double(data.reduce(0, +)) ? Double(data.reduce(0, +)) : percentValue ?? Double(data.reduce(0, +))
-        self.theme = theme
+        self.commonInit(
+            data,
+            percentValue: calculatePercent(percentValue),
+            colors: ColorThemes.getColors(by: theme)
+        )
     }
     
     public init(data: [Double] = [], percentValue: Double? = nil, theme: [Color]?) {
+        commonInit(
+            data,
+            percentValue: calculatePercent(percentValue),
+            colors: theme ?? ColorThemes.getColors(by: .currency)
+        )
+    }
+    
+    private mutating func commonInit(_ data: [Double], percentValue: Double, colors: [Color]) {
         self.data = data
-        self.percentValue = percentValue ?? 0 < Double(data.reduce(0, +)) ? Double(data.reduce(0, +)) : percentValue ?? Double(data.reduce(0, +))
-        self.colors = theme
-        if theme == nil {
-            self.theme = .currency
-        }
+        self.percentValue = percentValue
+        self.colors = colors
+    }
+    
+    private func calculatePercent(_ percentValue: Double?) -> Double {
+        guard let percentValue else { return 0 }
+        let sumOfDatas = Double(data.reduce(0, +))
+        return max(sumOfDatas, percentValue)
     }
     
     public var body: some View {
         GeometryReader { proxy in
-            ZStack {
-                RoundedRectangle(cornerRadius: 16)
-                    .foregroundColor(.gray.opacity(0.2))
-                HStack(spacing: 0) {
-                    ForEach(Array(zip(data.indices, data)), id: \.0) { index, value in
-                        if let theme {
-                            if index == 0 {
-                                Rectangle()
-                                    .cornerRadius(cellRadius(by: index), corners: [.topLeft, .bottomLeft])
-                                    .foregroundColor(.themeColor(by: index, with: theme))
-                                    .frame(width: cellWidth(by: index, proxy.size.width))
-                            } else if index == data.count - 1 {
-                                Rectangle()
-                                    .cornerRadius(cellRadius(by: index), corners: [.topRight, .bottomRight])
-                                    .foregroundColor(.themeColor(by: index, with: theme))
-                                    .frame(width: cellWidth(by: index, proxy.size.width))
-                            } else {
-                                Rectangle()
-                                    .foregroundColor(.themeColor(by: index, with: theme))
-                                    .frame(width: cellWidth(by: index, proxy.size.width))
-                            }
-                        } else if let colors {
-                            if index == 0 {
-                                Rectangle()
-                                    .cornerRadius(cellRadius(by: index), corners: [.topLeft, .bottomLeft])
-                                    .foregroundColor(Color.getColor(colors, index))
-                                    .frame(width: cellWidth(by: index, proxy.size.width))
-                            } else if index == data.count - 1 {
-                                Rectangle()
-                                    .cornerRadius(cellRadius(by: index), corners: [.topRight, .bottomRight])
-                                    .foregroundColor(Color.getColor(colors, index))
-                                    .frame(width: cellWidth(by: index, proxy.size.width))
-                            } else {
-                                Rectangle()
-                                    .foregroundColor(Color.getColor(colors, index))
-                                    .frame(width: cellWidth(by: index, proxy.size.width))
-                            }
-                        }
-                    }
-                    
-                    if percentValue > data.reduce(0, +) {
-                        Spacer()
-                    }
+            HStack(spacing: 0) {
+                ForEach(Array(zip(data.indices, data)), id: \.0) { index, value in
+                    createRectange(by: index, proxy: proxy)
                 }
-            }.mask {
-                RoundedRectangle(cornerRadius: 16)
-            }
+                
+                if percentValue > data.reduce(0, +) {
+                    Spacer()
+                }
+            }.background(.quaternary)
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 16)
+                )
         }
+    }
+    
+    @ViewBuilder private func createRectange(by index: Int, proxy: GeometryProxy) -> some View {
+        if let cellRect = getCellRectShape(by: index) {
+            Rectangle()
+                .cornerRadius(cellRadius(by: index), corners: cellRect)
+                .foregroundColor(Color.getColor(colors, index))
+                .frame(width: cellWidth(by: index, proxy.size.width))
+        } else {
+            Rectangle()
+                .foregroundColor(Color.getColor(colors, index))
+                .frame(width: cellWidth(by: index, proxy.size.width))
+        }
+    }
+    
+    private func getCellRectShape(by index: Int) -> UIRectCorner? {
+        if index == .zero {
+            return [.topLeft, .bottomLeft]
+        } else if index == data.count - 1 {
+            return [.topRight, .bottomRight]
+        }
+        
+        return nil
     }
     
     private func cellCapacity(by index: Int) -> Double {
@@ -83,7 +82,7 @@ public struct SwiftUIPercentChart: View {
         if data[index] == 0 {
             return 0
         }
-        return  (cellCapacity(by: index) * width) / 100
+        return (cellCapacity(by: index) * width) / 100
     }
     
     private func cellRadius(by index: Int) -> Double {
@@ -92,13 +91,12 @@ public struct SwiftUIPercentChart: View {
 }
 
 #if DEBUG
-@available(iOS 15.0, *)
 struct SwiftUIPercentChart_Previews : PreviewProvider {
     static var previews: some View {
         let screenSize = UIScreen.main.bounds
         
         VStack {
-            SwiftUIPercentChart(data: [1, 0, 0], theme: [.red, .blue, .green])
+            SwiftUIPercentChart(data: [1, 2, 25], percentValue: 10, theme: [.red, .blue, .green])
                 .frame(width: screenSize.width * 0.7, height: 10)
             
             SwiftUIPercentChart(data: [1, 0, 0], theme: .currency)
